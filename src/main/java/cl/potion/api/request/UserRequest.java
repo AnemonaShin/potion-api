@@ -2,10 +2,19 @@ package cl.potion.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+/**
+ * User Request for Register and Update Users.
+ *
+ * @author AnemonaShin (Christian Ramirez) - cramireza1997@gmail.com
+ * @version 1.0.0
+ * @since 10-05-2026
+ */
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

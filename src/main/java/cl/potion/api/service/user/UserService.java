@@ -1,4 +1,4 @@
-package cl.potion.api.service;
+package cl.potion.api.service.user;
 
 import java.math.BigInteger;
 

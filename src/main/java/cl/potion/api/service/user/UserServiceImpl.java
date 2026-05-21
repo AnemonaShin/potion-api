@@ -1,9 +1,10 @@
-package cl.potion.api.service;
+package cl.potion.api.service.user;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import cl.potion.api.exception.ServiceException;
 import cl.potion.api.repository.UserRepository;
 import cl.potion.api.request.UserRequest;
 import cl.potion.api.response.DefaultResponse;
+import cl.potion.api.util.ExceptionUtil;
 import cl.potion.api.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,9 +51,12 @@ public class UserServiceImpl implements UserService {
           .active(true)
           .build());
       return DefaultResponse.builder().code("200").message("USER REGISTERED").build();
+    } catch (DataIntegrityViolationException daex) {
+      log.error("DataIntegrityViolationException inside registerUser, ex: {}", daex);
+      throw new ServiceException(ExceptionUtil.duplicateConstraintError(daex));
     } catch (Exception ex) {
       log.error("Exception inside registerUser, ex: {}", ex);
-      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "500", ex.getMessage());
+      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
   }
 
@@ -60,7 +65,7 @@ public class UserServiceImpl implements UserService {
       return repository.searchAllByActiveTrue(pageRequest);
     } catch (Exception ex) {
       log.error("Exception inside getAllUsers, ex: {}", ex);
-      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "500", ex.getMessage());
+      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
   }
 
@@ -84,7 +89,7 @@ public class UserServiceImpl implements UserService {
       throw new ServiceException(excp.getHttpStatus(), excp.getCode(), excp.getMessage());
     } catch (Exception ex) {
       log.error("Exception inside searchByUsername, ex: {}", ex);
-      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "500", ex.getMessage());
+      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
   }
@@ -114,7 +119,7 @@ public class UserServiceImpl implements UserService {
       throw new ServiceException(excp.getHttpStatus(), excp.getCode(), excp.getMessage());
     } catch (Exception ex) {
       log.error("Exception inside deactivateUser, ex: {}", ex);
-      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "500", ex.getMessage());
+      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
   }
@@ -138,11 +143,11 @@ public class UserServiceImpl implements UserService {
 
       return DefaultResponse.builder().code("200").message("USER ACTIVATED").build();
     } catch (ServiceException excp) {
-      log.error("Exception inside activateUser, ex: {}", excp);
+      log.error("ServiceException inside activateUser, ex: {}", excp);
       throw new ServiceException(excp.getHttpStatus(), excp.getCode(), excp.getMessage());
     } catch (Exception ex) {
       log.error("Exception inside activateUser, ex: {}", ex);
-      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "500", ex.getMessage());
+      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
   }
@@ -167,13 +172,16 @@ public class UserServiceImpl implements UserService {
 
       repository.saveAndFlush(user);
 
-      return DefaultResponse.builder().code("200").message("USER UPDATED").build();
+      return DefaultResponse.builder().code("200").message("USER UPDATED").response(user).build();
+    } catch (DataIntegrityViolationException daex) {
+      log.error("DataIntegrityViolationException inside updateUser, ex: {}", daex);
+      throw new ServiceException(ExceptionUtil.duplicateConstraintError(daex));
     } catch (ServiceException excp) {
-      log.error("Exception inside updateUser, ex: {}", excp);
+      log.error("ServiceException inside updateUser, ex: {}", excp);
       throw new ServiceException(excp.getHttpStatus(), excp.getCode(), excp.getMessage());
     } catch (Exception ex) {
       log.error("Exception inside updateUser, ex: {}", ex);
-      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, "500", ex.getMessage());
+      throw new ServiceException(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
   }
 

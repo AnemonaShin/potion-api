@@ -11,12 +11,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
+/**
+ * Potion Entity for Potion Crafters
+ *
+ * @author AnemonaShin (Christian Ramirez) - cramireza1997@gmail.com
+ * @version 1.0.0
+ * @since 16-05-2026
+ */
 @Entity
 @Table(name = "Potion")
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

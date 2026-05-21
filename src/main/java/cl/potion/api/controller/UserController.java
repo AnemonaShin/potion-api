@@ -7,7 +7,7 @@ import cl.potion.api.entity.UserEntity;
 import cl.potion.api.exception.ServiceException;
 import cl.potion.api.request.UserRequest;
 import cl.potion.api.response.DefaultResponse;
-import cl.potion.api.service.UserService;
+import cl.potion.api.service.user.UserService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 /**
+ * Rest Controller for Potion Crafters Users API
+ *
  * @author AnemonaShin (Christian Ramirez) - cramireza1997@gmail.com
  * @version 1.0.0
  * @since 10-05-2026
@@ -37,10 +39,22 @@ public class UserController {
 
   UserService userService;
 
+  /**
+   * Public Constructor of the class.
+   *
+   * @param userService Service designed for user needs.
+   */
   public UserController(UserService userService) {
     this.userService = userService;
   }
 
+  /**
+   * Post Method for the registry of new users on system.
+   *
+   * @param body Request Object for Users.
+   * @return Response Entity with "DefaultResponse" Object.
+   * @throws ServiceException Custom throw for errors on the service.
+   */
   @Tag(name = "register", description = "Endpoints designed to registers.")
   @ApiResponse(description = "Responds a custom response object.")
   @PostMapping(path = "/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,6 +65,13 @@ public class UserController {
     return ResponseEntity.ok().body(response);
   }
 
+  /**
+   * Get Method for search an user using his username.
+   *
+   * @param username for the searching.
+   * @return Response Entity with "DefaultResponse" Object.
+   * @throws ServiceException Custom throw for errors on the service.
+   */
   @Tag(name = "search", description = "Endpoints designed to searchs.")
   @GetMapping(path = "/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiResponse(description = "Responds a custom response object with user searched data.")
@@ -61,6 +82,15 @@ public class UserController {
     return ResponseEntity.ok().body(response);
   }
 
+  /**
+   * Get Method designed to search all users on system prioriticing active ones
+   * and using page to do that.
+   *
+   * @param page Int for page positioning.
+   * @param size Int for the size of the list displayed.
+   * @return A page of active users.
+   * @throws ServiceException Custom throw for errors on the service.
+   */
   @Tag(name = "search", description = "Endpoints designed to searchs.")
   @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiResponse(description = "Responds a paginated object with users data.")
@@ -70,6 +100,13 @@ public class UserController {
     return userService.getAllUsers(PageRequest.of(page, size));
   }
 
+  /**
+   * Delete Method designed to deactivate an active user.
+   *
+   * @param userId Id of the user to deactivate.
+   * @return Response Entity with "DefaultResponse" Object.
+   * @throws ServiceException Custom throw for errors on the service.
+   */
   @Tag(name = "delete", description = "Endpoints designed to delete or deactivate.")
   @DeleteMapping(path = "/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiResponse(description = "Responds a custom response object.")
@@ -78,6 +115,13 @@ public class UserController {
     return ResponseEntity.ok().body(userService.deactivateUser(userId));
   }
 
+  /**
+   * Patch Method designed to re activate a deactivated user.
+   *
+   * @param userId Id of the user to activate.
+   * @return Response Entity with "DefaultResponse" Object.
+   * @throws ServiceException Custom throw for errors on the service.
+   */
   @Tag(name = "update", description = "Endpoints designed to update data.")
   @PatchMapping(path = "activate/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiResponse(description = "Responds a custom response object with users data modified.")
@@ -86,6 +130,14 @@ public class UserController {
     return ResponseEntity.ok().body(userService.activateUser(userId));
   }
 
+  /**
+   * Put Method for the update of an user.
+   *
+   * @param userId Id of the user to update.
+   * @param body   Request Object for Users.
+   * @return Response Entity with "DefaultResponse" Object.
+   * @throws ServiceException Custom throw for errors on the service.
+   */
   @Tag(name = "update", description = "Endpoints designed to update data.")
   @PutMapping(path = "/{user_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiResponse(description = "Responds a custom response object with users data modified.")
