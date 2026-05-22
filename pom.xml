@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>cl.potion</groupId>
 	<artifactId>potion-api</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>Potion API</name>
 	<description>API used for mini-games pourposes</description>
 	<url/>
@@ -70,6 +70,16 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>3.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
