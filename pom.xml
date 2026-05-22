@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>cl.potion</groupId>
 	<artifactId>potion-api</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>Potion API</name>
 	<description>API used for mini-games pourposes</description>
 	<url/>
