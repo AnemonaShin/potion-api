@@ -4,7 +4,7 @@ import java.math.BigInteger;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import cl.potion.api.entity.UserEntity;
@@ -17,7 +17,7 @@ import cl.potion.api.entity.UserEntity;
  * @since 10-05-2026
  */
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, BigInteger> {
+public interface UserRepository extends CrudRepository<UserEntity, BigInteger> {
 
   /**
    * Search by Username.

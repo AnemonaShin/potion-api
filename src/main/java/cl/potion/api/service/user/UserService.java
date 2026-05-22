@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import cl.potion.api.entity.UserEntity;
 import cl.potion.api.exception.ServiceException;
-import cl.potion.api.request.UserRequest;
-import cl.potion.api.response.DefaultResponse;
+import cl.potion.api.dto.request.UserRequest;
+import cl.potion.api.dto.response.DefaultResponse;
 
 /**
  * Interface for Users management.

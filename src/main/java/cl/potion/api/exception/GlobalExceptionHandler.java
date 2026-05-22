@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import cl.potion.api.response.ExceptionResponse;
+import cl.potion.api.dto.response.ExceptionResponse;
 
 /**
  * GlobalExceptionHandler for Map Exceptions inside Potion Crafters API.

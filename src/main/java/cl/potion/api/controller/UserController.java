@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cl.potion.api.entity.UserEntity;
 import cl.potion.api.exception.ServiceException;
-import cl.potion.api.request.UserRequest;
-import cl.potion.api.response.DefaultResponse;
+import cl.potion.api.dto.request.UserRequest;
+import cl.potion.api.dto.response.DefaultResponse;
 import cl.potion.api.service.user.UserService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.PutMapping;
  * @since 10-05-2026
  */
 @RestController
-@RequestMapping(path = "/v1/user")
+@RequestMapping(path = "/v1/users")
 public class UserController {
 
   UserService userService;
@@ -112,7 +112,8 @@ public class UserController {
   @ApiResponse(description = "Responds a custom response object.")
   public ResponseEntity<DefaultResponse> deactivateUser(
       @PathVariable(name = "user_id") BigInteger userId) throws ServiceException {
-    return ResponseEntity.ok().body(userService.deactivateUser(userId));
+    userService.deactivateUser(userId);
+    return ResponseEntity.noContent().build();
   }
 
   /**
@@ -123,11 +124,12 @@ public class UserController {
    * @throws ServiceException Custom throw for errors on the service.
    */
   @Tag(name = "update", description = "Endpoints designed to update data.")
-  @PatchMapping(path = "activate/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(path = "/{user_id}/activate", produces = MediaType.APPLICATION_JSON_VALUE)
   @ApiResponse(description = "Responds a custom response object with users data modified.")
   public ResponseEntity<DefaultResponse> activateUser(@PathVariable(name = "user_id") BigInteger userId)
       throws ServiceException {
-    return ResponseEntity.ok().body(userService.activateUser(userId));
+    userService.activateUser(userId);
+    return ResponseEntity.noContent().build();
   }
 
   /**

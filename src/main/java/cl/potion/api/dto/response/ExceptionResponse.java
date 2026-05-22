@@ -1,4 +1,6 @@
-package cl.potion.api.request;
+package cl.potion.api.dto.response;
+
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,19 +9,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * User Request for Register and Update Users.
+ * Exception Response for Handlers to Exceptions.
  *
  * @author AnemonaShin (Christian Ramirez) - cramireza1997@gmail.com
  * @version 1.0.0
- * @since 10-05-2026
+ * @since 18-05-2026
  */
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class UserRequest {
-  String username;
-  String password;
-  String email;
+public class ExceptionResponse {
+  String code;
+  String message;
+  LocalDateTime timestamp;
 }

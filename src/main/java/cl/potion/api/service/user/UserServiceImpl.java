@@ -14,8 +14,8 @@ import cl.potion.api.entity.UserEntity;
 import cl.potion.api.exception.ExceptionList;
 import cl.potion.api.exception.ServiceException;
 import cl.potion.api.repository.UserRepository;
-import cl.potion.api.request.UserRequest;
-import cl.potion.api.response.DefaultResponse;
+import cl.potion.api.dto.request.UserRequest;
+import cl.potion.api.dto.response.DefaultResponse;
 import cl.potion.api.util.ExceptionUtil;
 import cl.potion.api.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
   public DefaultResponse registerUser(UserRequest body) throws ServiceException {
     try {
-      repository.saveAndFlush(UserEntity.builder()
+      repository.save(UserEntity.builder()
           .username(body.getUsername())
           .password(PasswordUtil.passwordEncrypt(body.getPassword()))
           .email(body.getEmail())
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
       user.setActive(false);
       user.setUpdatedAt(localNowCl);
 
-      repository.saveAndFlush(user);
+      repository.save(user);
 
       return DefaultResponse.builder().code("200").message("USER DEACTIVATED").build();
 
@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
       user.setActive(true);
       user.setUpdatedAt(localNowCl);
 
-      repository.saveAndFlush(user);
+      repository.save(user);
 
       return DefaultResponse.builder().code("200").message("USER ACTIVATED").build();
     } catch (ServiceException excp) {
@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
       user.setEmail(body.getEmail() != null ? body.getEmail() : user.getEmail());
       user.setUpdatedAt(localNowCl);
 
-      repository.saveAndFlush(user);
+      repository.save(user);
 
       return DefaultResponse.builder().code("200").message("USER UPDATED").response(user).build();
     } catch (DataIntegrityViolationException daex) {

@@ -1,40 +1,55 @@
 @startuml Potion Class
+
 class User {
+    +id: Long
     +username: String
-    +password: String
     +email: String
+    +password: String
     +active: Boolean
 }
 
 class Inventory {
+    +id: Long
     +space: int
 }
 
+class InventoryItem {
+    +id: Long
+    +quantity: int
+}
+
 class Item {
-  +id of item: int
-  +quantity: int
-}
-
-class Potion {
-  +name: String
-  +type: String
-}
-
-class Ingredient {
-  +name: String
-  +type: String
+    +id: Long
+    +name: String
+    +description: String
+    +type: ItemType
+    +maxStack: int
 }
 
 class Recipe {
-  +description: String
+    +id: Long
+    +name: String
+    +description: String
 }
 
-User "1" --> "1" Inventory : Has an
-User "1" --> "*" Recipe : Discovers
-Inventory "1" --> "*" Item: Contains
-Item "*" --> "1" Potion : Contains
-Item "*" --> "1" Ingredient : Contains
-Recipe "1" --> "1" Potion : Creates
-Recipe "1" --> "*" Ingredient : Uses
+class RecipeIngredient {
+    +id: Long
+    +quantity: int
+}
+
+class UserRecipeDiscovery {
+    +discoveredAt: LocalDateTime
+}
+
+User "1" --> "1" Inventory
+Inventory "1" --> "*" InventoryItem
+InventoryItem "*" --> "1" Item
+
+Recipe "1" --> "1" Item : creates
+Recipe "1" --> "*" RecipeIngredient
+RecipeIngredient "*" --> "1" Item
+
+User "1" --> "*" UserRecipeDiscovery
+UserRecipeDiscovery "*" --> "1" Recipe
 
 @enduml
