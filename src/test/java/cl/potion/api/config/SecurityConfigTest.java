@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import cl.potion.api.controller.PotionController;
+import cl.potion.api.controller.UserController;
+import cl.potion.api.service.user.UserService;
 
-@WebMvcTest(PotionController.class)
+@WebMvcTest(UserController.class)
 @Import(SecurityConfig.class)
 @DisplayName("SecurityConfig Tests")
 class SecurityConfigTest {
@@ -20,11 +22,14 @@ class SecurityConfigTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockitoBean
+    private UserService userService;
+
     @Test
     @DisplayName("Should permit all requests without authentication")
     void testPermitAll() throws Exception {
-        mockMvc.perform(get("/v1/potion"))
-                .andExpect(status().isNotFound());
+        mockMvc.perform(get("/v1/users/"))
+                .andExpect(status().isOk());
     }
 
     @Test

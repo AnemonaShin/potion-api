@@ -1,7 +1,7 @@
 package cl.potion.api.entity;
 
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,28 +21,26 @@ import lombok.ToString;
  *
  * @author AnemonaShin (Christian Ramirez) - cramireza1997@gmail.com
  * @version 1.0.0
- * @since 16-05-2026
+ * @since 25-05-2026
  */
 @Entity
-@Table(name = "Potion")
+@Table(name = "Inventory")
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PotionEntity {
+public class InventoryEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "potion_id", unique = true, nullable = false, columnDefinition = "BIGINT")
+  @Column(name = "inventory_id", unique = true, nullable = false, columnDefinition = "BIGINT")
   BigInteger id;
-  @Column(unique = true, nullable = false)
-  String name;
+  @Column(unique = false, nullable = false)
+  int space;
   @Column(nullable = false)
-  String type;
+  LocalDateTime createAt;
   @Column(nullable = false)
-  Date createAt;
-  @Column(nullable = false)
-  Date updatedAt;
+  LocalDateTime updatedAt;
 }
